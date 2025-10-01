@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceBook AI - Your Magical Interactive Reading Companion</title>
+    <meta name="description" content="Voice-controlled AI literary companion for visually impaired readers">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Floating Voice Button -->
+    <div class="floating-voice-btn">
+        <div id="voiceIndicator" class="voice-mic" role="button" aria-label="Toggle voice listening">
+            <div class="mic-body">
+                <div class="mic-stand"></div>
+                <div class="mic-head"></div>
+            </div>
+            <div class="mic-waves">
+                <div class="wave wave-1"></div>
+                <div class="wave wave-2"></div>
+                <div class="wave wave-3"></div>
+            </div>
+        </div>
+        <div class="voice-tooltip">Say "Hey Book" to start</div>
+    </div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header" role="banner">
+            <div class="header-content">
+                <div class="title-bubble">
+                    <h1 class="main-title">
+                        <span class="title-text">VoiceBook AI</span>
+                        <span class="subtitle">Your Magical Interactive Reading Companion</span>
+                    </h1>
+                    <div class="bubble-tail"></div>
+                </div>
+                <!-- Moved floating elements outside title-bubble -->
+                <div class="floating-book">📖</div>
+                <div class="floating-sparkle">✨</div>
+                <div class="floating-magic">🔮</div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content" role="main">
+            <!-- Status Bar -->
+            <div class="status-bar" aria-live="polite">
+                <div class="status-item">
+                    <span class="status-label">Voice Status:</span>
+                    <span id="voiceStatus" class="status-value">Ready to listen</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">AI Status:</span>
+                    <span id="aiStatus" class="status-value">Activate to begin</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">Current Chapter:</span>
+                    <span id="currentChapter" class="status-value chapter-number">1</span>
+                </div>
+            </div>
+
+            <!-- API Key Section - Updated for OpenAI -->
+            <section class="api-section" aria-labelledby="apiHeading">
+                <div class="api-container">
+                    <div class="api-header">
+                        <h2 id="apiHeading">Activate Your Literary Guide</h2>
+                        <p>Unlock the full magic of VoiceBook AI with OpenAI</p>
+                    </div>
+                    <div class="api-input-group">
+                        <input 
+                            type="password" 
+                            id="apiKeyInput" 
+                            placeholder="Enter your OpenAI API Key" 
+                            class="api-key-input"
+                            aria-label="Enter your OpenAI API Key"
+                        >
+                        <button id="activateAI" class="api-activate-btn" aria-label="Activate OpenAI AI">
+                            <span class="btn-icon">🧠</span>
+                            Activate OpenAI AI
+                        </button>
+                    </div>
+                    <div id="apiStatus" class="api-status" aria-live="polite"></div>
+                    <div class="api-cost-info">
+                        <p><strong>Cost Information:</strong> Uses GPT-3.5-turbo (~$0.002 per request)</p>
+                        <p><small>You get $5 free credit when you sign up!</small></p>
+                    </div>
+                    <small class="api-help">
+                        Get your API key from 
+                        <a href="https://platform.openai.com/" target="_blank" aria-label="Get API key from OpenAI">
+                            OpenAI Platform
+                        </a>
+                    </small>
+                </div>
+            </section>
+
+            <!-- Conversation Section -->
+            <section class="conversation-section" aria-labelledby="conversationHeading">
+                <h2 id="conversationHeading" class="section-heading">Your Literary Journey</h2>
+                <div class="conversation-container">
+                    <div id="conversation" class="conversation" role="log" aria-live="polite">
+                        <!-- Fixed: Changed welcome-message to message and ai-message -->
+                        <div class="message ai-message">
+                            <div class="message-avatar">🔮</div>
+                            <div class="message-content">
+                                <div class="message-header">
+                                    <strong>VoiceBook AI</strong>
+                                    <span class="message-time" id="currentTime"></span>
+                                </div>
+                                <p>Welcome to your magical interactive reading companion! I'm here to guide you through the wonderful world of literature. Activate OpenAI to begin our journey through Pride and Prejudice with advanced AI analysis.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions" aria-labelledby="quickActionsHeading">
+                <h2 id="quickActionsHeading" class="section-heading">Quick Commands</h2>
+                <div class="action-buttons">
+                    <button class="action-btn" data-command="help" aria-label="Get help">
+                        <span class="btn-icon">❓</span>
+                        <span class="btn-text">Help Guide</span>
+                    </button>
+                    <button class="action-btn" data-command="characters" aria-label="Learn about characters">
+                        <span class="btn-icon">👥</span>
+                        <span class="btn-text">Characters</span>
+                    </button>
+                    <button class="action-btn" data-command="themes" aria-label="Explore themes">
+                        <span class="btn-icon">🎭</span>
+                        <span class="btn-text">Themes</span>
+                    </button>
+                    <button class="action-btn" data-command="plot" aria-label="Learn about plot">
+                        <span class="btn-icon">📖</span>
+                        <span class="btn-text">Plot Summary</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Voice Instructions -->
+            <section class="instructions-section">
+                <div class="instructions-container">
+                    <h3>Try These Voice Commands with OpenAI:</h3>
+                    <div class="command-grid">
+                        <div class="command-card">
+                            <span class="command-icon">🎯</span>
+                            <p>"Compare Elizabeth and Darcy's character development"</p>
+                        </div>
+                        <div class="command-card">
+                            <span class="command-icon">💭</span>
+                            <p>"Analyze the social commentary in Chapter 10"</p>
+                        </div>
+                        <div class="command-card">
+                            <span class="command-icon">📚</span>
+                            <p>"Explain Austen's use of irony in the proposal scenes"</p>
+                        </div>
+                        <div class="command-card">
+                            <span class="command-icon">🔍</span>
+                            <p>"How does weather symbolism reflect emotions?"</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Book Content Features Section -->
+            <section class="features-section">
+                <div class="features-container">
+                    <h3>OpenAI-Powered Features:</h3>
+                    <div class="features-grid">
+                        <div class="feature-item">
+                            <span class="feature-badge">🤖</span>
+                            <h4>Dynamic Analysis</h4>
+                            <p>Real-time literary analysis with contextual understanding</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-badge">💬</span>
+                            <h4>Conversation Memory</h4>
+                            <p>Remembers previous questions for continuous dialogue</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-badge">🎨</span>
+                            <h4>Creative Insights</h4>
+                            <p>Generates unique perspectives and comparisons</p>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-badge">🔗</span>
+                            <h4>Contextual Understanding</h4>
+                            <p>Connects themes across different parts of the novel</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Chapter Navigation -->
+            <div class="chapter-navigation">
+                <button class="chapter-nav-btn" data-chapter="prev" aria-label="Previous chapter">← Previous</button>
+                <button class="chapter-nav-btn active" data-chapter="1" aria-label="Chapter 1">Chapter 1</button>
+                <button class="chapter-nav-btn" data-chapter="2" aria-label="Chapter 2">Chapter 2</button>
+                <button class="chapter-nav-btn" data-chapter="3" aria-label="Chapter 3">Chapter 3</button>
+                <button class="chapter-nav-btn" data-chapter="next" aria-label="Next chapter">Next →</button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer" role="contentinfo">
+            <p class="footer-text">
+                <span class="magic-text">VoiceBook AI</span> - Powered by OpenAI • 
+                <span class="highlight">Advanced literary analysis through AI</span>
+            </p>
+            <div class="footer-decoration">
+                <span class="footer-sparkle">✨</span>
+                <span class="footer-book">📚</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Screen Reader Announcements -->
+    <div id="srAnnounce" aria-live="assertive" aria-atomic="true" class="sr-only"></div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
